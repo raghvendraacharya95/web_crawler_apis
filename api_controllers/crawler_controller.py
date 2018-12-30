@@ -33,15 +33,20 @@ class GetAllLinks(Resource):
 		"""
 		##Note - Can Use dictionary as switcher to api - ToDo
 		request = all_links_parser.parse_args()
+		is_success = True
 		if request["depth"]:
 			seed_url = request["seed_url"]
 			depth = int(request["depth"])
 			crawler = WebCrawler()
 			all_links = crawler.get_all_links(seed_url,depth)
 			if isinstance(all_links,list):
-				BaseResponse["data"] = all_links
+				if len(all_links) > 0:
+					BaseResponse["data"] = all_links
+				else:
+					is_success = False
 			else:
-				# BaseResponse["ErrMsg"] = all_links
+				is_success = False
+			if is_success == False:
 				BaseResponse["ErrMsg"] = "Unable to fetch"
 				BaseResponse["StatusCode"] = "-1"
 				BaseResponse["Success"] = False
@@ -94,7 +99,7 @@ class GetAllPages(Resource):
 				BaseResponse["data"] = all_hyper_links
 			else:
 				# BaseResponse["ErrMsg"] = all_hyper_links
-				BaseResponse["ErrMsg"] = "Unable to fetch"
+				BaseResponse["ErrMsg"] = "Unable to fetch"+str(all_hyper_links)
 				BaseResponse["StatusCode"] = "-1"
 				BaseResponse["Success"] = False
 			return BaseResponse, 200

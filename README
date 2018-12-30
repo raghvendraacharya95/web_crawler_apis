@@ -1,13 +1,11 @@
 ##Author Raghvendra Acharya
 ##Date 2018-12-29
 
-Rest API's for a web crawler
+Rest APIs for a web crawler
 
 Description
 
 	1.web_crawler_apis is a flask rest-plus based web API project, which provides the rest APIs for web crawling.
-
-
 
 Assumptions
 

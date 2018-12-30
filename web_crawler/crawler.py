@@ -11,21 +11,26 @@ class WebCrawler(object):
 		""""
 		This function will return all hyperlinks to crawl
 		"""
-		if re.match(r'(http|https|www)://.*',seed_url):
-			links_to_crawl = list()
-			prepared_link = list()
-			links_to_crawl.append([seed_url])
-			for links in links_to_crawl:
-				print "current_depth = ",depth
-				if depth > 0:
-					for link in links:
-						prepared_link.append(link)						
-						links_to_crawl.append(self.get_hyperliks(link))
-				else:
-					break
-				depth-=1
-			return prepared_link
-		return "Seed Url should starts with http or https"
+		try:	
+			if re.match(r'(http|https|www)://.*',seed_url):
+				links_to_crawl = list()
+				prepared_link = list()
+				links_to_crawl.append([seed_url])
+				for links in links_to_crawl:
+					print "current_depth = ",depth
+					if depth > 0:
+						for link in links:
+							prepared_link.append(link)			
+							sub_links = self.get_hyperliks(link)
+							if isinstance(sub_links,list):
+								links_to_crawl.append(sub_links)						
+					else:
+						break
+					depth-=1
+				return prepared_link
+			return "Seed Url should starts with http or https"
+		except Exception as e:
+			return str(e)
 
 	def get_hyperliks(self,url):
 		"""
@@ -45,14 +50,21 @@ class WebCrawler(object):
 					sub_links.append(str(hyperlinks))
 			return sub_links
 		except Exception as e:
-			raise e
+			# raise e
+			return str(e)
 	
 	def get_images(self,links_to_crawl,seed_url=None):
+		prepared_image_links_list = list()
 		prepared_image_links = {}
 		try:
 			for link in links_to_crawl:
-				prepared_image_links.update({link:self.get_image_url(link,seed_url)})
-			return [prepared_image_links]
+				image_link = self.get_image_url(link,seed_url)
+				if isinstance(image_link,list):
+					prepared_image_links.update({link:image_link})
+			if prepared_image_links:
+				prepared_image_links_list.append(prepared_image_links)
+				return prepared_image_links_list
+			return prepared_image_links_list
 		except Exception as e:
 			# raise e
 			return str(e)
