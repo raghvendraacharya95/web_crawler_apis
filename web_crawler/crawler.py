@@ -69,6 +69,7 @@ class WebCrawler(object):
 					all_images.append(img_url)
 				else:
 					if ".com" in img_url:
+					# if re.match(r'(.png|.com|.jpg|.jpeg)',img_url):
 						img_url="https:"+img_url
 						all_images.append(img_url)
 					elif not re.match(url+r'.*',img_url) and seed_url:

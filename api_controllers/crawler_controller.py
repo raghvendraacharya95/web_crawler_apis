@@ -41,7 +41,8 @@ class GetAllLinks(Resource):
 			if isinstance(all_links,list):
 				BaseResponse["data"] = all_links
 			else:
-				BaseResponse["ErrMsg"] = all_links
+				# BaseResponse["ErrMsg"] = all_links
+				BaseResponse["ErrMsg"] = "Unable to fetch"
 				BaseResponse["StatusCode"] = "-1"
 				BaseResponse["Success"] = False
 			return BaseResponse, 200
@@ -68,7 +69,9 @@ class GetImagesLinks(Resource):
 		if isinstance(all_images_link,list):
 			BaseResponse["data"] = all_images_link
 		else:
-			BaseResponse["ErrMsg"] = all_images_link
+			# error_msg = all_images_link
+			# BaseResponse["ErrMsg"] = all_images_link
+			BaseResponse["ErrMsg"] = "Unable to fetch ImagesLinks("+all_images_link+")"
 			BaseResponse["StatusCode"] = "-1"
 			BaseResponse["Success"] = False
 		return BaseResponse, 200
@@ -81,8 +84,8 @@ class GetAllPages(Resource):
 		"""
 		This API will return only hypertexted ref links in requested url(web page) with given depth
 		"""
+		request = all_links_parser.parse_args()
 		if request["depth"]:
-			request = all_links_parser.parse_args()
 			seed_url = request["seed_url"]
 			depth = int(request["depth"])
 			crawler = WebCrawler()
@@ -90,7 +93,8 @@ class GetAllPages(Resource):
 			if isinstance(all_hyper_links,list):
 				BaseResponse["data"] = all_hyper_links
 			else:
-				BaseResponse["ErrMsg"] = all_hyper_links
+				# BaseResponse["ErrMsg"] = all_hyper_links
+				BaseResponse["ErrMsg"] = "Unable to fetch"
 				BaseResponse["StatusCode"] = "-1"
 				BaseResponse["Success"] = False
 			return BaseResponse, 200
