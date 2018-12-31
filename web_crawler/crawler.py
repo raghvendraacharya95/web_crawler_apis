@@ -76,7 +76,14 @@ class WebCrawler(object):
 			plain = code.text
 			s = BeautifulSoup(plain, "html.parser")
 			for image_url in s.findAll('img'):
+				# img_url = str(image_url.get('data-src')) if str(image_url.get('data-src')) != None else str(image_url.get('src'))
 				img_url = str(image_url.get('src'))
+				if img_url == "None" or img_url in [""," "] or img_url == None:
+					image_url_list = str(image_url).split()
+					for attribute in image_url_list:
+						match_object = re.search(r'.*[a-zA-Z0-9]-src',attribute)
+						if match_object:
+							img_url = str(image_url.get(match_object.group()))
 				if re.match(r'(http|https)://.*',img_url):
 					all_images.append(img_url)
 				else:
