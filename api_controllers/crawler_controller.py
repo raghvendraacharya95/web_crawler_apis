@@ -32,6 +32,7 @@ class GetAllLinks(Resource):
 		This API will return all hypertexted ref links in requested url with given depth along with all images links
 		"""
 		##Note - Can Use dictionary as switcher to api - ToDo
+		BaseResponse = {"data" : [],"ErrMsg" : None, "StatusCode": 1, "Success":True}
 		request = all_links_parser.parse_args()
 		is_success = True
 		if request["depth"]:
@@ -67,6 +68,7 @@ class GetImagesLinks(Resource):
 		"""
 		This API Will return all images links in requested url
 		"""
+		BaseResponse = {"data" : [],"ErrMsg" : None, "StatusCode": 1, "Success":True}
 		request = image_links_parser.parse_args()
 		url = request["url"]
 		crawler = WebCrawler()
@@ -89,6 +91,7 @@ class GetAllPages(Resource):
 		"""
 		This API will return only hypertexted ref links in requested url(web page) with given depth
 		"""
+		BaseResponse = {"data" : [],"ErrMsg" : None, "StatusCode": 1, "Success":True}
 		request = all_links_parser.parse_args()
 		if request["depth"]:
 			seed_url = request["seed_url"]
